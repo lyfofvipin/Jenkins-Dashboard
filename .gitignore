@@ -12,12 +12,11 @@
 
 # Ignore all JENKINS_HOME except jobs directory, root xml config, and
 # .gitignore file.
-/*
 !/jobs
 !/.gitignore
 !/*.xml
 .venv
-
+__pycache__
 # Ignore all files in jobs subdirectories except for folders.
 # Note: git doesn't track folders, only file content.
 jobs/**
