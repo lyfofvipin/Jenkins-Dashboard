@@ -1,6 +1,7 @@
 import requests
+from .common import add_to_logs
 
-class Jenkins():
+class JenkinsJobAnalyzer():
 
     
     def __init__(self, server_url: str, username=None, token=None, ssl_verification=True):
@@ -20,7 +21,7 @@ class Jenkins():
         self.api_suffix = "/api/json"
         self.auth = None
         self.ssl_verification = ssl_verification if ssl_verification else False
-        self.folders = []
+        self.jobs_details = {}
         self.job_list = []
 
         if username and token:
@@ -38,6 +39,7 @@ class Jenkins():
                 auth = self.auth,
                 verify=self.ssl_verification
             )
+            add_to_logs(f"Connection to Jenkins Server {self.server_url} done.")
             return data.json()
         except requests.exceptions.ConnectionError:
             raise ConnectionError(f"Failed to connect with {self.server_url} you can try to access the jenkins from the host try `curl f{self.server_url + self.api_suffix}` and you will see some json.")
@@ -56,6 +58,7 @@ class Jenkins():
         for x in data:
             if "WorkflowJob" in x.get("_class") or "FreeStyleProject" in x.get("_class"):
                 self.job_list.append(x.get("url"))
+                add_to_logs(f"Fetched job {x.get("url")}")
             if "Folder" in x.get("_class"):
                 self.get_jobs_from_folder( x.get("url").rstrip("/") + self.api_suffix )
 
@@ -71,13 +74,38 @@ class Jenkins():
         for x in home_page_data:
             if "WorkflowJob" in x.get("_class") or "FreeStyleProject" in x.get("_class"):
                 self.job_list.append(x.get("url"))
+                add_to_logs(f"Fetched job {x.get("url")}")
             if "Folder" in x.get("_class"):
                 self.get_jobs_from_folder( x.get("url").rstrip("/") + self.api_suffix )
 
     def get_jobs_detail(self):
+
+        """
+            This method will fetch job details and create a dict out of it with all the info.
+        """
+
         self.fetch_jobs()
+        self.jobs_details["total_number_of_jobs"] = len(self.job_list)
         for x in self.job_list:
-            pass
+            last_build_data = {}
+            data = requests.get(
+                x.rstrip("/") + self.api_suffix,
+                auth = self.auth,
+                verify=self.ssl_verification
+            ).json()
+            if x.get("lastStableBuild"):
+                last_build_data = requests.get(
+                    x.get("lastStableBuild").get("url"),
+                    auth = self.auth,
+                    verify=self.ssl_verification
+                ).json()
+
+            self.jobs_details[x.get("displayName")] = { 
+                "buildable": x.get("buildable"),
+                "fullDisplayName": x.get("fullDisplayName"),
+                "score": x.get("healthReport")[0].get("score") if x.get("healthReport") else None,
+                "fullDisplayName": x.get("fullDisplayName"),
+            }
 
     def prepare_dict_data(self):
         pass
