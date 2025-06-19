@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenkins Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 1.125rem;
+        }
+
+        .section {
+            margin-bottom: 24px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-percentage {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Icon colors */
+        .icon-primary { background-color: #dbeafe; color: #1d4ed8; }
+        .icon-success { background-color: #dcfce7; color: #16a34a; }
+        .icon-danger { background-color: #fee2e2; color: #dc2626; }
+        .icon-warning { background-color: #fef3c7; color: #d97706; }
+        .icon-secondary { background-color: #fef7cd; color: #ca8a04; }
+        .icon-muted { background-color: #f1f5f9; color: #64748b; }
+
+        /* VM Section */
+        .vm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .vm-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .vm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .vm-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .vm-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-online {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .vm-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .vm-detail {
+            text-align: center;
+        }
+
+        .vm-detail-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .vm-detail-value {
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #16a34a;
+            transition: width 0.3s ease;
+        }
+
+        /* Dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-btn:hover {
+            background: #2563eb;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 300px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            z-index: 1;
+            right: 0;
+            top: 100%;
+            margin-top: 4px;
+            border: 1px solid #e2e8f0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+        }
+
+        /* Tables */
+        .jobs-section {
+            margin-top: 32px;
+        }
+
+        .jobs-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .job-category {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-category-header {
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-category-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .job-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .job-table th {
+            background: #f8fafc;
+            padding: 12px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #374151;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .job-table td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .job-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .job-status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-passing { background-color: #dcfce7; color: #16a34a; }
+        .status-failing { background-color: #fee2e2; color: #dc2626; }
+        .status-unstable { background-color: #fef3c7; color: #d97706; }
+        .status-aborted { background-color: #fef7cd; color: #ca8a04; }
+        .status-unknown { background-color: #f1f5f9; color: #64748b; }
+
+        .job-dropdown-content {
+            max-height: 250px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .vm-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 16px;
+            }
+            
+            .header h1 {
+                font-size: 1.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Jenkins Dashboard</h1>
+            <p>Monitor your CI/CD pipeline status and infrastructure</p>
+        </div>
+
+        <!-- Job Statistics Overview -->
+        <div class="section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Total Jobs</div>
+                        <div class="stat-icon icon-primary">📊</div>
+                    </div>
+                    <div class="stat-value">156</div>
+                    <div class="stat-percentage">100% of total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Passing</div>
+                        <div class="stat-icon icon-success">✅</div>
+                    </div>
+                    <div class="stat-value">98</div>
+                    <div class="stat-percentage">62.8% of total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Failing</div>
+                        <div class="stat-icon icon-danger">❌</div>
+                    </div>
+                    <div class="stat-value">23</div>
+                    <div class="stat-percentage">14.7% of total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Unstable</div>
+                        <div class="stat-icon icon-warning">⚠️</div>
+                    </div>
+                    <div class="stat-value">18</div>
+                    <div class="stat-percentage">11.5% of total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Aborted</div>
+                        <div class="stat-icon icon-secondary">⏸️</div>
+                    </div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-percentage">7.7% of total</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Unknown</div>
+                        <div class="stat-icon icon-muted">❓</div>
+                    </div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-percentage">3.2% of total</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VM Information Section -->
+        <div class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h2 style="font-size: 1.5rem; font-weight: 600;">Virtual Machines</h2>
+                <div class="dropdown" id="vmDropdown">
+                    <button class="dropdown-btn" onclick="toggleDropdown('vmDropdown')">
+                        View More ▼
+                    </button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item">
+                            <div>
+                                <div style="font-weight: 600;">jenkins-worker-03</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">Ubuntu 20.04</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.875rem;">1.2TB / 2TB</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">60% used</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <div>
+                                <div style="font-weight: 600;">jenkins-worker-04</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">CentOS 8</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.875rem;">800GB / 1TB</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">80% used</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <div>
+                                <div style="font-weight: 600;">jenkins-worker-05</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">Ubuntu 22.04</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 0.875rem;">500GB / 1TB</div>
+                                <div style="font-size: 0.75rem; color: #64748b;">50% used</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vm-grid">
+                <div class="vm-card">
+                    <div class="vm-header">
+                        <div class="vm-name">jenkins-master-01</div>
+                        <div class="vm-status status-online">Online</div>
+                    </div>
+                    <div class="vm-details">
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">OS</div>
+                            <div class="vm-detail-value">Ubuntu 20.04</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">CPU Usage</div>
+                            <div class="vm-detail-value">45%</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">Memory</div>
+                            <div class="vm-detail-value">12GB / 16GB</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">Available Space</div>
+                            <div class="vm-detail-value">1.5TB / 2TB</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+                
+                <div class="vm-card">
+                    <div class="vm-header">
+                        <div class="vm-name">jenkins-worker-02</div>
+                        <div class="vm-status status-online">Online</div>
+                    </div>
+                    <div class="vm-details">
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">OS</div>
+                            <div class="vm-detail-value">CentOS 7</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">CPU Usage</div>
+                            <div class="vm-detail-value">68%</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">Memory</div>
+                            <div class="vm-detail-value">7GB / 8GB</div>
+                        </div>
+                        <div class="vm-detail">
+                            <div class="vm-detail-label">Available Space</div>
+                            <div class="vm-detail-value">300GB / 500GB</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs Tables by Status -->
+        <div class="jobs-section">
+            <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 24px;">Jobs by Status</h2>
+            
+            <div class="jobs-grid">
+                <!-- Passing Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-passing">✅ Passing Jobs (98)</span>
+                        </div>
+                        <div class="dropdown" id="passingDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">frontend-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">backend-integration</td><td style="padding: 6px 12px; font-size: 0.875rem;">3 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">mobile-app-build</td><td style="padding: 6px 12px; font-size: 0.875rem;">4 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">api-validation</td><td style="padding: 6px 12px; font-size: 0.875rem;">5 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>web-application-build</td>
+                                <td>1 hour ago</td>
+                                <td>15m 32s</td>
+                                <td><span class="job-status-badge status-passing">Passing</span></td>
+                            </tr>
+                            <tr>
+                                <td>database-migration</td>
+                                <td>1 hour ago</td>
+                                <td>8m 45s</td>
+                                <td><span class="job-status-badge status-passing">Passing</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Failing Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-failing">❌ Failing Jobs (23)</span>
+                        </div>
+                        <div class="dropdown" id="failingDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('failingDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">legacy-system-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">30 minutes ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">payment-processor</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 hour ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">email-service</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>security-scan</td>
+                                <td>20 minutes ago</td>
+                                <td>5m 23s</td>
+                                <td><span class="job-status-badge status-failing">Failing</span></td>
+                            </tr>
+                            <tr>
+                                <td>performance-tests</td>
+                                <td>45 minutes ago</td>
+                                <td>12m 18s</td>
+                                <td><span class="job-status-badge status-failing">Failing</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Unstable Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-unstable">⚠️ Unstable Jobs (18)</span>
+                        </div>
+                        <div class="dropdown" id="unstableDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('unstableDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">flaky-ui-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 hour ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">integration-suite</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>load-testing</td>
+                                <td>30 minutes ago</td>
+                                <td>25m 12s</td>
+                                <td><span class="job-status-badge status-unstable">Unstable</span></td>
+                            </tr>
+                            <tr>
+                                <td>browser-compatibility</td>
+                                <td>1 hour ago</td>
+                                <td>18m 45s</td>
+                                <td><span class="job-status-badge status-unstable">Unstable</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Aborted Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-aborted">⏸️ Aborted Jobs (12)</span>
+                        </div>
+                        <div class="dropdown" id="abortedDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('abortedDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">long-running-build</td><td style="padding: 6px 12px; font-size: 0.875rem;">3 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">backup-process</td><td style="padding: 6px 12px; font-size: 0.875rem;">4 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>nightly-deployment</td>
+                                <td>2 hours ago</td>
+                                <td>3m 15s</td>
+                                <td><span class="job-status-badge status-aborted">Aborted</span></td>
+                            </tr>
+                            <tr>
+                                <td>data-sync-job</td>
+                                <td>3 hours ago</td>
+                                <td>1m 30s</td>
+                                <td><span class="job-status-badge status-aborted">Aborted</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Unknown Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (5)</span>
+                        </div>
+                        <div class="dropdown" id="unknownDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">experimental-feature</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 day ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">config-validation</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 days ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>legacy-cleanup</td>
+                                <td>1 day ago</td>
+                                <td>--</td>
+                                <td><span class="job-status-badge status-unknown">Unknown</span></td>
+                            </tr>
+                            <tr>
+                                <td>health-check</td>
+                                <td>2 days ago</td>
+                                <td>--</td>
+                                <td><span class="job-status-badge status-unknown">Unknown</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(dropdownId) {
+            // Close all other dropdowns
+            const allDropdowns = document.querySelectorAll('.dropdown');
+            allDropdowns.forEach(dropdown => {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.classList.remove('show');
+                }
+            });
+            
+            // Toggle the clicked dropdown
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                const dropdowns = document.getElementsByClassName('dropdown-content');
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    const dropdown = openDropdown.closest('.dropdown');
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
