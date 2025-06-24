@@ -348,7 +348,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>Jenkins Dashboard</h1>
+            <h1>**Jenkins Dashboard**</h1>
             <p>Monitor your CI/CD pipeline status and infrastructure</p>
         </div>
 
@@ -360,7 +360,7 @@
                         <div class="stat-title">Total Jobs</div>
                         <div class="stat-icon icon-primary">📊</div>
                     </div>
-                    <div class="stat-value">156</div>
+                    <div class="stat-value">**dump_your_total_jobs_count_here**</div>
                     <div class="stat-percentage">100% of total</div>
                 </div>
                 
@@ -369,8 +369,8 @@
                         <div class="stat-title">Passing</div>
                         <div class="stat-icon icon-success">✅</div>
                     </div>
-                    <div class="stat-value">98</div>
-                    <div class="stat-percentage">62.8% of total</div>
+                    <div class="stat-value">**dump_your_passed_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_passed_jobs_count_percentage_here**% of total</div>
                 </div>
                 
                 <div class="stat-card">
@@ -378,8 +378,8 @@
                         <div class="stat-title">Failing</div>
                         <div class="stat-icon icon-danger">❌</div>
                     </div>
-                    <div class="stat-value">23</div>
-                    <div class="stat-percentage">14.7% of total</div>
+                    <div class="stat-value">**dump_your_failed_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_failed_jobs_count_percentage_here**% of total</div>
                 </div>
                 
                 <div class="stat-card">
@@ -387,8 +387,8 @@
                         <div class="stat-title">Unstable</div>
                         <div class="stat-icon icon-warning">⚠️</div>
                     </div>
-                    <div class="stat-value">18</div>
-                    <div class="stat-percentage">11.5% of total</div>
+                    <div class="stat-value">**dump_your_unstable_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_unstable_jobs_count_here**% of total</div>
                 </div>
                 
                 <div class="stat-card">
@@ -396,8 +396,8 @@
                         <div class="stat-title">Aborted</div>
                         <div class="stat-icon icon-secondary">⏸️</div>
                     </div>
-                    <div class="stat-value">12</div>
-                    <div class="stat-percentage">7.7% of total</div>
+                    <div class="stat-value">**dump_your_aborted_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_aborted_jobs_count_here**% of total</div>
                 </div>
                 
                 <div class="stat-card">
@@ -405,13 +405,13 @@
                         <div class="stat-title">Unknown</div>
                         <div class="stat-icon icon-muted">❓</div>
                     </div>
-                    <div class="stat-value">5</div>
-                    <div class="stat-percentage">3.2% of total</div>
+                    <div class="stat-value">**dump_your_disabled_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_disabled_jobs_count_percentage_here**% of total</div>
                 </div>
             </div>
         </div>
-
-        <!-- VM Information Section -->
+<!-- 
+        VM Information Section
         <div class="section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <h2 style="font-size: 1.5rem; font-weight: 600;">Virtual Machines</h2>
@@ -512,67 +512,18 @@
                 </div>
             </div>
         </div>
-
+ -->
         <!-- Jobs Tables by Status -->
         <div class="jobs-section">
             <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 24px;">Jobs by Status</h2>
             
             <div class="jobs-grid">
-                <!-- Passing Jobs -->
-                <div class="job-category">
-                    <div class="job-category-header">
-                        <div class="job-category-title">
-                            <span class="job-status-badge status-passing">✅ Passing Jobs (98)</span>
-                        </div>
-                        <div class="dropdown" id="passingDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">frontend-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">backend-integration</td><td style="padding: 6px 12px; font-size: 0.875rem;">3 hours ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">mobile-app-build</td><td style="padding: 6px 12px; font-size: 0.875rem;">4 hours ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">api-validation</td><td style="padding: 6px 12px; font-size: 0.875rem;">5 hours ago</td></tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="job-table">
-                        <thead>
-                            <tr>
-                                <th>Job Name</th>
-                                <th>Last Run</th>
-                                <th>Duration</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>web-application-build</td>
-                                <td>1 hour ago</td>
-                                <td>15m 32s</td>
-                                <td><span class="job-status-badge status-passing">Passing</span></td>
-                            </tr>
-                            <tr>
-                                <td>database-migration</td>
-                                <td>1 hour ago</td>
-                                <td>8m 45s</td>
-                                <td><span class="job-status-badge status-passing">Passing</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
 
                 <!-- Failing Jobs -->
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-failing">❌ Failing Jobs (23)</span>
+                            <span class="job-status-badge status-failing">❌ Failing Jobs (**dump_your_failed_jobs_count_here**)</span>
                         </div>
                         <div class="dropdown" id="failingDropdown">
                             <button class="dropdown-btn" onclick="toggleDropdown('failingDropdown')">
@@ -584,9 +535,7 @@
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
                                     </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">legacy-system-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">30 minutes ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">payment-processor</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 hour ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">email-service</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -601,18 +550,43 @@
                             </tr>
                         </thead>
                         <tbody>
+                            **dump_your_all_failing_jobs_here**
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Passing Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-passing">✅ Passing Jobs (**dump_your_passed_jobs_count_here**)</span>
+                        </div>
+                        <div class="dropdown" id="passingDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
                             <tr>
-                                <td>security-scan</td>
-                                <td>20 minutes ago</td>
-                                <td>5m 23s</td>
-                                <td><span class="job-status-badge status-failing">Failing</span></td>
+                                <th>Job Name</th>
+                                <th>Last Run</th>
+                                <th>Duration</th>
+                                <th>Status</th>
                             </tr>
-                            <tr>
-                                <td>performance-tests</td>
-                                <td>45 minutes ago</td>
-                                <td>12m 18s</td>
-                                <td><span class="job-status-badge status-failing">Failing</span></td>
-                            </tr>
+                        </thead>
+                        <tbody>
+                            **dump_your_all_success_jobs_here**
                         </tbody>
                     </table>
                 </div>
@@ -621,7 +595,7 @@
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-unstable">⚠️ Unstable Jobs (18)</span>
+                            <span class="job-status-badge status-unstable">⚠️ Unstable Jobs (**dump_your_unstable_jobs_count_here**)</span>
                         </div>
                         <div class="dropdown" id="unstableDropdown">
                             <button class="dropdown-btn" onclick="toggleDropdown('unstableDropdown')">
@@ -633,8 +607,7 @@
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
                                     </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">flaky-ui-tests</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 hour ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">integration-suite</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -649,18 +622,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>load-testing</td>
-                                <td>30 minutes ago</td>
-                                <td>25m 12s</td>
-                                <td><span class="job-status-badge status-unstable">Unstable</span></td>
-                            </tr>
-                            <tr>
-                                <td>browser-compatibility</td>
-                                <td>1 hour ago</td>
-                                <td>18m 45s</td>
-                                <td><span class="job-status-badge status-unstable">Unstable</span></td>
-                            </tr>
+                            **dump_your_all_unstable_jobs_here**
                         </tbody>
                     </table>
                 </div>
@@ -669,7 +631,7 @@
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-aborted">⏸️ Aborted Jobs (12)</span>
+                            <span class="job-status-badge status-aborted">⏸️ Aborted Jobs (**dump_your_aborted_jobs_count_here**)</span>
                         </div>
                         <div class="dropdown" id="abortedDropdown">
                             <button class="dropdown-btn" onclick="toggleDropdown('abortedDropdown')">
@@ -681,8 +643,7 @@
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
                                     </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">long-running-build</td><td style="padding: 6px 12px; font-size: 0.875rem;">3 hours ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">backup-process</td><td style="padding: 6px 12px; font-size: 0.875rem;">4 hours ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -697,18 +658,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>nightly-deployment</td>
-                                <td>2 hours ago</td>
-                                <td>3m 15s</td>
-                                <td><span class="job-status-badge status-aborted">Aborted</span></td>
-                            </tr>
-                            <tr>
-                                <td>data-sync-job</td>
-                                <td>3 hours ago</td>
-                                <td>1m 30s</td>
-                                <td><span class="job-status-badge status-aborted">Aborted</span></td>
-                            </tr>
+                            **dump_your_all_aborted_jobs_here**
                         </tbody>
                     </table>
                 </div>
@@ -717,7 +667,7 @@
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (5)</span>
+                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (**dump_your_unknown_jobs_count_here**)</span>
                         </div>
                         <div class="dropdown" id="unknownDropdown">
                             <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
@@ -729,8 +679,7 @@
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
                                         <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
                                     </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">experimental-feature</td><td style="padding: 6px 12px; font-size: 0.875rem;">1 day ago</td></tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">config-validation</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 days ago</td></tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
                                 </table>
                             </div>
                         </div>
@@ -757,6 +706,40 @@
                                 <td>--</td>
                                 <td><span class="job-status-badge status-unknown">Unknown</span></td>
                             </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Disabled Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-unknown">❓ Disabled Jobs (**dump_your_disabled_jobs_count_here**)</span>
+                        </div>
+                        <div class="dropdown" id="unknownDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                View More ▼
+                            </button>
+                            <div class="dropdown-content job-dropdown-content">
+                                <table style="width: 100%; border-collapse: collapse;">
+                                    <tr style="background: #f8fafc;">
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
+                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
+                                    </tr>
+                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            **dump_your_all_disabled_jobs_here**
                         </tbody>
                     </table>
                 </div>
