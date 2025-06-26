@@ -51,3 +51,4 @@ jobs/**/*workspace
 logs
 reports*
 description.html
+data*

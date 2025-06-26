@@ -1,7 +1,7 @@
 import requests, os
 from .common import add_to_logs
 from datetime import datetime
-# from .data import abc
+from .data import abc
 
 class JenkinsJobAnalyzer():
 
