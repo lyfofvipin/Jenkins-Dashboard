@@ -4,6 +4,9 @@
 ![Python](https://img.shields.io/badge/Python-3.6+-green?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-Apache%202.0-yellow?style=for-the-badge)
 
+
+![DEMO](demo.png)
+
 ## 🚀 Overview
 
 The **Jenkins Dashboard** is a powerful, lightweight analytics and monitoring solution that provides comprehensive insights into your Jenkins CI/CD pipeline. Unlike traditional Jenkins plugins, this standalone tool generates beautiful, responsive HTML dashboards with advanced job categorization and analytics capabilities.
