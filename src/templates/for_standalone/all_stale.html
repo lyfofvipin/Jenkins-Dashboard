@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenkins Dashboard | Unknown Jobs</title>
+    <title>Jenkins Dashboard | Stale Jobs</title>
     <style>
         * {
             margin: 0;
@@ -352,51 +352,44 @@
         <div class="section">
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="stat-title">Unknown (Haven't Executed Since Created)</div>
-                    <div class="stat-icon icon-muted">❓</div>
+                    <div class="stat-title">Stale (Executing From More Then 1 Day)</div>
+                    <div class="stat-icon icon-muted">📣</div>
                 </div>
-                <div class="stat-value">**dump_your_unknown_jobs_count_here**</div>
-                <div class="stat-percentage">**dump_your_unknown_jobs_count_percentage_here**% of total</div>
+                <div class="stat-value">**dump_your_stale_jobs_count_here**</div>
+                <div class="stat-percentage">**dump_your_stale_jobs_count_percentage_here**% of total</div>
             </div>
         </div>
 
         <div class="jobs-section">
             <div class="jobs-grid">
                 
-                <!-- Unknown Jobs -->
+                <!-- Stale Jobs -->
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (Haven't Executed Since Created ) (**dump_your_unknown_jobs_count_here**)</span>
+                            <span class="job-status-badge status-unknown">📣 Stale Jobs (**dump_your_stale_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="unknownDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_stale_jobs.html">
+                            <div class="dropdown" id="unknownDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
                             <tr>
                                 <th>Job Name</th>
+                                <th>Started At</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            **dump_your_all_unknown_jobs_here**
+                            **dump_your_all_stale_jobs_here**
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>

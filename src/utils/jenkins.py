@@ -30,6 +30,7 @@ class JenkinsJobAnalyzer():
         self.aborted_jobs = {}
         self.disabled_jobs = {}
         self.unknown_jobs = {}
+        self.stale_jobs = {}
         self.jobs_details = {}
         self.total_number_of_jobs = 0
 
@@ -105,6 +106,23 @@ class JenkinsJobAnalyzer():
             ).json()
 
             if data.get("buildable"):
+
+                if data.get("lastBuild"):
+                    add_to_logs(f"Collecting last build details of {data.get("fullDisplayName")}.")
+                    last_build_data = requests.get(
+                        data.get("lastBuild").get("url").strip("/") + self.api_suffix,
+                        auth = self.auth,
+                        verify=self.ssl_verification
+                    ).json()
+
+                if not last_build_data.get("result") and validate_if_job_running_more_then_a_day(last_build_data.get("timestamp")):
+                    self.stale_jobs[data.get("displayName")] = { 
+                            "fullDisplayName": data.get("fullDisplayName"),
+                            "last_build_url": last_build_data.get("url") if data.get("lastCompletedBuild") else None,
+                            "timestamp": last_build_data.get("timestamp") if data.get("lastCompletedBuild") else None,
+                        }
+                    continue
+
                 if data.get("lastCompletedBuild"):
                     add_to_logs(f"Collecting last build details of {data.get("fullDisplayName")}.")
                     last_build_data = requests.get(
@@ -173,13 +191,15 @@ class JenkinsJobAnalyzer():
             + len(self.fail_jobs) \
             + len(self.success_jobs) \
             + len(self.unknown_jobs) \
-            + len(self.unstable_jobs)
+            + len(self.unstable_jobs) \
+            + len(self.stale_jobs)
         self.jobs_details["success_jobs"] = self.success_jobs
         self.jobs_details["aborted_jobs"] = self.aborted_jobs
         self.jobs_details["unstable_jobs"] = self.unstable_jobs
         self.jobs_details["fail_jobs"] = self.fail_jobs
         self.jobs_details["unknown_jobs"] = self.unknown_jobs
         self.jobs_details["disabled_jobs"] = self.disabled_jobs
+        self.jobs_details["stale_jobs"] = self.stale_jobs
         # self.jobs_details = abc
 
         add_to_logs(str(self.jobs_details))
@@ -226,6 +246,11 @@ class JenkinsJobAnalyzer():
                         x = x.replace("**dump_your_unknown_jobs_count_here**", str(len(self.jobs_details.get("unknown_jobs")) if self.jobs_details.get("unknown_jobs") else "0"))
                     if "**dump_your_unknown_jobs_count_percentage_here**" in x:
                         x = x.replace("**dump_your_unknown_jobs_count_percentage_here**", str((len(self.jobs_details.get("unknown_jobs")) * 100) // self.jobs_details.get("total_number_of_jobs") if self.jobs_details.get("unknown_jobs") else "0"))
+                    
+                    if "**dump_your_stale_jobs_count_here**" in x:
+                        x = x.replace("**dump_your_stale_jobs_count_here**", str(len(self.jobs_details.get("stale_jobs")) if self.jobs_details.get("stale_jobs") else "0"))
+                    if "**dump_your_stale_jobs_count_percentage_here**" in x:
+                        x = x.replace("**dump_your_stale_jobs_count_percentage_here**", str((len(self.jobs_details.get("stale_jobs")) * 100) // self.jobs_details.get("total_number_of_jobs") if self.jobs_details.get("stale_jobs") else "0"))
 
                     if "**dump_your_all_failing_jobs_here**" in x:
                         if self.jobs_details.get("fail_jobs"):
@@ -369,6 +394,34 @@ class JenkinsJobAnalyzer():
                             continue
                         else:
                             x = x.replace("**dump_your_all_unknown_jobs_here**", "🚀🚀No Unknown Jobs Found On The Jenkins.🚀🚀")
+                    
+                    if "**dump_your_all_stale_jobs_here**" in x:
+                        if self.jobs_details.get("stale_jobs"):
+                            with open("src/templates/for_standalone/add_stale_job.html") as failing_jobs:
+                                stale_jobs_html_template = failing_jobs.read()
+
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_stale.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_stale_jobs.html",
+                                status_template_html=stale_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_stale_jobs_here**",
+                                data_key_to_fetch="stale_jobs",
+                                jobs_count_string="**dump_your_stale_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_stale_jobs_count_percentage_here**",
+                            )
+
+                            stale_jobs_html = ""
+                            for y in list(self.jobs_details.get("stale_jobs").keys())[:3]:
+                                z = self.jobs_details.get("stale_jobs")[y]
+                                dummy_template = stale_jobs_html_template
+                                dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
+                                dummy_template = dummy_template.replace("**dump_your_job_timestamp_here**", datetime.fromtimestamp(z.get("timestamp")/1000).strftime('%A, %-d-%-m-%Y at %-I:%M %p'))
+                                stale_jobs_html += dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
+                                x = x.replace("**dump_your_all_stale_jobs_here**", stale_jobs_html)
+                            description_file.writelines(stale_jobs_html)
+                            continue
+                        else:
+                            x = x.replace("**dump_your_all_stale_jobs_here**", "🚀🚀No stale Jobs Found On The Jenkins.🚀🚀")
 
                     if "**dump_your_all_success_jobs_here**" in x:
                         if self.jobs_details.get("success_jobs"):

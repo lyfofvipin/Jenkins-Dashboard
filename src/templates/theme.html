@@ -422,11 +422,22 @@
                 <a href="all_unknown_jobs.html">
                     <div class="stat-card">
                         <div class="stat-header">
-                            <div class="stat-title">Unknown</div>
+                            <div class="stat-title">Unknown (Haven't Executed Since Created)</div>
                             <div class="stat-icon icon-muted">❓</div>
                         </div>
                         <div class="stat-value">**dump_your_unknown_jobs_count_here**</div>
                         <div class="stat-percentage">**dump_your_unknown_jobs_count_percentage_here**% of total</div>
+                    </div>
+                </a>
+
+                <a href="all_stale_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Stale (Executing From More Then 1 Day)</div>
+                            <div class="stat-icon icon-muted">📣</div>
+                        </div>
+                        <div class="stat-value">**dump_your_stale_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_stale_jobs_count_percentage_here**% of total</div>
                     </div>
                 </a>
             </div>
@@ -532,6 +543,34 @@
             <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 24px;">Jobs by Status</h2>
             
             <div class="jobs-grid">
+
+                <!-- Stale Jobs -->
+                <div class="job-category">
+                    <div class="job-category-header">
+                        <div class="job-category-title">
+                            <span class="job-status-badge status-unknown">📣 Stale Jobs (**dump_your_disabled_jobs_count_here**)</span>
+                        </div>
+                        <a href="all_stale_jobs.html">
+                            <div class="dropdown" id="unknownDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                    View All 👆
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                    <table class="job-table">
+                        <thead>
+                            <tr>
+                                <th>Job Name</th>
+                                <th>Started At</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            **dump_your_all_stale_jobs_here**
+                        </tbody>
+                    </table>
+                </div>
 
                 <!-- Failing Jobs -->
                 <div class="job-category">
@@ -653,7 +692,7 @@
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (**dump_your_unknown_jobs_count_here**)</span>
+                            <span class="job-status-badge status-unknown">❓ Unknown Jobs (Haven't Executed Since Created ) (**dump_your_unknown_jobs_count_here**)</span>
                         </div>
                         <a href="all_unknown_jobs.html">
                             <div class="dropdown" id="unknownDropdown">
