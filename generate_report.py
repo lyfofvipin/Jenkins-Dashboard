@@ -15,7 +15,7 @@ else:
     username = None
     token = None
 
-if os.environ.get("SSL_VERIFICATION"):
+if os.environ.get("SSL_VERIFICATION") != "false":
     ssl_verification = os.environ.get("SSL_VERIFICATION")
 else:
     ssl_verification = False
