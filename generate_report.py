@@ -20,7 +20,7 @@ if os.environ.get("SSL_VERIFICATION"):
 else:
     ssl_verification = False
 
-abcd = JenkinsJobAnalyzer(server_url="", ssl_verification=ssl_verification, username=username, token=token)
+abcd = JenkinsJobAnalyzer(server_url=server_url, ssl_verification=ssl_verification, username=username, token=token)
 abcd.prepare_dict_data()
 abcd.prepare_description_report()
 abcd.prepare_html_report()

@@ -364,50 +364,71 @@
                     <div class="stat-percentage">100% of total</div>
                 </div>
                 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-title">Passing</div>
-                        <div class="stat-icon icon-success">✅</div>
+                <a href="all_passing_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Passing</div>
+                            <div class="stat-icon icon-success">✅</div>
+                        </div>
+                        <div class="stat-value">**dump_your_passed_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_passed_jobs_count_percentage_here**% of total</div>
                     </div>
-                    <div class="stat-value">**dump_your_passed_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_passed_jobs_count_percentage_here**% of total</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-title">Failing</div>
-                        <div class="stat-icon icon-danger">❌</div>
+                </a>
+
+                <a href="all_failed_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Failing</div>
+                            <div class="stat-icon icon-danger">❌</div>
+                        </div>
+                        <div class="stat-value">**dump_your_failed_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_failed_jobs_count_percentage_here**% of total</div>
                     </div>
-                    <div class="stat-value">**dump_your_failed_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_failed_jobs_count_percentage_here**% of total</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-title">Unstable</div>
-                        <div class="stat-icon icon-warning">⚠️</div>
+                </a>
+
+                <a href="all_unstable_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Unstable</div>
+                            <div class="stat-icon icon-warning">⚠️</div>
+                        </div>
+                        <div class="stat-value">**dump_your_unstable_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_unstable_jobs_count_here**% of total</div>
                     </div>
-                    <div class="stat-value">**dump_your_unstable_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_unstable_jobs_count_here**% of total</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-title">Aborted</div>
-                        <div class="stat-icon icon-secondary">⏸️</div>
+                </a>
+
+                <a href="all_aborted_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Aborted</div>
+                            <div class="stat-icon icon-secondary">⏸️</div>
+                        </div>
+                        <div class="stat-value">**dump_your_aborted_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_aborted_jobs_count_percentage_here**% of total</div>
                     </div>
-                    <div class="stat-value">**dump_your_aborted_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_aborted_jobs_count_here**% of total</div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-title">Unknown</div>
-                        <div class="stat-icon icon-muted">❓</div>
+                </a>
+
+                <a href="all_disabled_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Disabled</div>
+                            <div class="stat-icon icon-muted">⚙️</div>
+                        </div>
+                        <div class="stat-value">**dump_your_disabled_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_disabled_jobs_count_percentage_here**% of total</div>
                     </div>
-                    <div class="stat-value">**dump_your_disabled_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_disabled_jobs_count_percentage_here**% of total</div>
-                </div>
+                </a>
+
+                <a href="all_unknown_jobs.html">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-title">Unknown</div>
+                            <div class="stat-icon icon-muted">❓</div>
+                        </div>
+                        <div class="stat-value">**dump_your_unknown_jobs_count_here**</div>
+                        <div class="stat-percentage">**dump_your_unknown_jobs_count_percentage_here**% of total</div>
+                    </div>
+                </a>
             </div>
         </div>
 <!-- 
@@ -415,20 +436,13 @@
         <div class="section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                 <h2 style="font-size: 1.5rem; font-weight: 600;">Virtual Machines</h2>
-                <div class="dropdown" id="vmDropdown">
-                    <button class="dropdown-btn" onclick="toggleDropdown('vmDropdown')">
-                        View More ▼
-                    </button>
-                    <div class="dropdown-content">
-                        <div class="dropdown-item">
-                            <div>
-                                <div style="font-weight: 600;">jenkins-worker-03</div>
-                                <div style="font-size: 0.75rem; color: #64748b;">Ubuntu 20.04</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div style="font-size: 0.875rem;">1.2TB / 2TB</div>
-                                <div style="font-size: 0.75rem; color: #64748b;">60% used</div>
-                            </div>
+                <a href="">
+                    <div class="dropdown" id="vmDropdown">
+                        <button class="dropdown-btn" onclick="toggleDropdown('vmDropdown')">
+                            View All 👆
+                        </button>
+                           
+                </a></div>
                         </div>
                         <div class="dropdown-item">
                             <div>
@@ -525,20 +539,13 @@
                         <div class="job-category-title">
                             <span class="job-status-badge status-failing">❌ Failing Jobs (**dump_your_failed_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="failingDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('failingDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_failed_jobs.html">
+                            <div class="dropdown" id="failingDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('failingDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
@@ -561,20 +568,13 @@
                         <div class="job-category-title">
                             <span class="job-status-badge status-passing">✅ Passing Jobs (**dump_your_passed_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="passingDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_passing_jobs.html">
+                            <div class="dropdown" id="passingDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
@@ -597,20 +597,13 @@
                         <div class="job-category-title">
                             <span class="job-status-badge status-unstable">⚠️ Unstable Jobs (**dump_your_unstable_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="unstableDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('unstableDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_unstable_jobs.html">
+                            <div class="dropdown" id="unstableDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('unstableDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
@@ -633,20 +626,13 @@
                         <div class="job-category-title">
                             <span class="job-status-badge status-aborted">⏸️ Aborted Jobs (**dump_your_aborted_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="abortedDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('abortedDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_aborted_jobs.html">
+                            <div class="dropdown" id="abortedDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('abortedDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
@@ -669,20 +655,13 @@
                         <div class="job-category-title">
                             <span class="job-status-badge status-unknown">❓ Unknown Jobs (**dump_your_unknown_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="unknownDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_unknown_jobs.html">
+                            <div class="dropdown" id="unknownDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>
@@ -701,22 +680,15 @@
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-unknown">❓ Disabled Jobs (**dump_your_disabled_jobs_count_here**)</span>
+                            <span class="job-status-badge status-unknown">⚙️ Disabled Jobs (**dump_your_disabled_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="unknownDropdown">
-                            <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
-                                View More ▼
-                            </button>
-                            <div class="dropdown-content job-dropdown-content">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr style="background: #f8fafc;">
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Job Name</td>
-                                        <td style="padding: 8px 12px; font-weight: 600; font-size: 0.75rem;">Last Run</td>
-                                    </tr>
-                                    <tr><td style="padding: 6px 12px; font-size: 0.875rem;">Will dump some data here soon.</td><td style="padding: 6px 12px; font-size: 0.875rem;">2 hours ago</td></tr>
-                                </table>
+                        <a href="all_disabled_jobs.html">
+                            <div class="dropdown" id="unknownDropdown">
+                                <button class="dropdown-btn" onclick="toggleDropdown('unknownDropdown')">
+                                    View All 👆
+                                </button>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <table class="job-table">
                         <thead>

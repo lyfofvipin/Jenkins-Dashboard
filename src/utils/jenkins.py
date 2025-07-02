@@ -1,5 +1,5 @@
 import requests, os
-from .common import add_to_logs
+from .common import *
 from datetime import datetime
 from .data import abc
 
@@ -231,14 +231,25 @@ class JenkinsJobAnalyzer():
                         if self.jobs_details.get("fail_jobs"):
                             with open("src/templates/for_standalone/add_failing_job.html") as failing_jobs:
                                 failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
 
-                            for y, z in self.jobs_details.get("fail_jobs").items():
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_failed.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_failed_jobs.html",
+                                status_template_html=failing_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_failing_jobs_here**",
+                                data_key_to_fetch="fail_jobs",
+                                jobs_count_string="**dump_your_failed_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_failed_jobs_count_percentage_here**",
+                            )
+
+                            failing_jobs_html = ""
+                            for y in list(self.jobs_details.get("fail_jobs").keys())[:3]:
+                                z = self.jobs_details.get("fail_jobs")[y]
                                 dummy_template = failing_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 dummy_template = dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 dummy_template = dummy_template.replace("**dump_your_job_timestamp_here**", datetime.fromtimestamp(z.get("timestamp")/1000).strftime('%A, %-d-%-m-%Y at %-I:%M %p'))
-                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", f"{z.get("duration")//60} Min")
+                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", convert_sec_to_hr_min_sec(z.get("duration")))
                                 x = x.replace("**dump_your_all_failing_jobs_here**", failing_jobs_html)
                             description_file.writelines(failing_jobs_html)
                             continue
@@ -248,15 +259,26 @@ class JenkinsJobAnalyzer():
                     if "**dump_your_all_unstable_jobs_here**" in x:
                         if self.jobs_details.get("unstable_jobs"):
                             with open("src/templates/for_standalone/add_unstable_job.html") as failing_jobs:
-                                failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
+                                unstable_jobs_html_template = failing_jobs.read()
 
-                            for y, z in self.jobs_details.get("unstable_jobs").items():
-                                dummy_template = failing_jobs_html_template
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_unstable.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_unstable_jobs.html",
+                                status_template_html=unstable_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_unstable_jobs_here**",
+                                data_key_to_fetch="unstable_jobs",
+                                jobs_count_string="**dump_your_unstable_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_unstable_jobs_count_percentage_here**",
+                            )
+
+                            failing_jobs_html = ""
+                            for y in list(self.jobs_details.get("unstable_jobs").keys())[:3]:
+                                z = self.jobs_details.get("unstable_jobs")[y]
+                                dummy_template = unstable_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 dummy_template = dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 dummy_template = dummy_template.replace("**dump_your_job_timestamp_here**", datetime.fromtimestamp(z.get("timestamp")/1000).strftime('%A, %-d-%-m-%Y at %-I:%M %p'))
-                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", f"{z.get("duration")//3600} Hr")
+                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", convert_sec_to_hr_min_sec(z.get("duration")))
                                 x = x.replace("**dump_your_all_unstable_jobs_here**", failing_jobs_html)
                             description_file.writelines(failing_jobs_html)
                             continue
@@ -267,14 +289,25 @@ class JenkinsJobAnalyzer():
                         if self.jobs_details.get("aborted_jobs"):
                             with open("src/templates/for_standalone/add_aborted_job.html") as failing_jobs:
                                 failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
 
-                            for y, z in self.jobs_details.get("aborted_jobs").items():
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_aborted.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_aborted_jobs.html",
+                                status_template_html=unstable_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_aborted_jobs_here**",
+                                data_key_to_fetch="aborted_jobs",
+                                jobs_count_string="**dump_your_aborted_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_aborted_jobs_count_percentage_here**",
+                            )
+
+                            failing_jobs_html = ""
+                            for y in list(self.jobs_details.get("aborted_jobs").keys())[:3]:
+                                z = self.jobs_details.get("aborted_jobs")[y]
                                 dummy_template = failing_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 dummy_template = dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 dummy_template = dummy_template.replace("**dump_your_job_timestamp_here**", datetime.fromtimestamp(z.get("timestamp")/1000).strftime('%A, %-d-%-m-%Y at %-I:%M %p'))
-                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", f"{z.get("duration")//3600} Hr")
+                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", convert_sec_to_hr_min_sec(z.get("duration")))
                                 x = x.replace("**dump_your_all_aborted_jobs_here**", failing_jobs_html)
                             description_file.writelines(failing_jobs_html)
                             continue
@@ -284,11 +317,23 @@ class JenkinsJobAnalyzer():
                     if "**dump_your_all_disabled_jobs_here**" in x:
                         if self.jobs_details.get("disabled_jobs"):
                             with open("src/templates/for_standalone/add_disabled_job.html") as failing_jobs:
-                                failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
+                                unstable_jobs_html_template = failing_jobs.read()
 
-                            for y, z in self.jobs_details.get("disabled_jobs").items():
-                                dummy_template = failing_jobs_html_template
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_disabled.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_disabled_jobs.html",
+                                status_template_html=unstable_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_disabled_jobs_here**",
+                                data_key_to_fetch="disabled_jobs",
+                                jobs_count_string="**dump_your_disabled_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_disabled_jobs_count_percentage_here**",
+                                add_duration_and_timestamp=False
+                            )
+
+                            failing_jobs_html = ""
+                            for y in list(self.jobs_details.get("disabled_jobs").keys())[:3]:
+                                z = self.jobs_details.get("disabled_jobs")[y]
+                                dummy_template = unstable_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 failing_jobs_html += dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 x = x.replace("**dump_your_all_disabled_jobs_here**", failing_jobs_html)
@@ -300,11 +345,23 @@ class JenkinsJobAnalyzer():
                     if "**dump_your_all_unknown_jobs_here**" in x:
                         if self.jobs_details.get("unknown_jobs"):
                             with open("src/templates/for_standalone/add_unknown_job.html") as failing_jobs:
-                                failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
+                                unknown_jobs_html_template = failing_jobs.read()
 
-                            for y, z in self.jobs_details.get("unknown_jobs").items():
-                                dummy_template = failing_jobs_html_template
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_unknown.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_unknown_jobs.html",
+                                status_template_html=unknown_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_unknown_jobs_here**",
+                                data_key_to_fetch="unknown_jobs",
+                                jobs_count_string="**dump_your_unknown_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_unknown_jobs_count_percentage_here**",
+                                add_duration_and_timestamp=False
+                            )
+
+                            failing_jobs_html = ""
+                            for y in list(self.jobs_details.get("unknown_jobs").keys())[:3]:
+                                z = self.jobs_details.get("unknown_jobs")[y]
+                                dummy_template = unknown_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 failing_jobs_html += dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 x = x.replace("**dump_your_all_unknown_jobs_here**", failing_jobs_html)
@@ -316,17 +373,28 @@ class JenkinsJobAnalyzer():
                     if "**dump_your_all_success_jobs_here**" in x:
                         if self.jobs_details.get("success_jobs"):
                             with open("src/templates/for_standalone/add_success_job.html") as failing_jobs:
-                                failing_jobs_html_template = failing_jobs.read()
-                            failing_jobs_html = ""
+                                success_jobs_html_template = failing_jobs.read()
 
-                            for y, z in self.jobs_details.get("success_jobs").items():
-                                dummy_template = failing_jobs_html_template
+                            dump_data_of_separate_entity_to_html(base_template_path="src/templates/for_standalone/all_success.html",
+                                data=self.jobs_details.copy(),
+                                new_file_name="reports/all_passing_jobs.html",
+                                status_template_html=success_jobs_html_template,
+                                string_to_replace_in_template="**dump_your_all_success_jobs_here**",
+                                data_key_to_fetch="success_jobs",
+                                jobs_count_string="**dump_your_passed_jobs_count_here**",
+                                jobs_percentage_string="**dump_your_passed_jobs_count_percentage_here**"
+                            )
+
+                            success_jobs_html = ""
+                            for y in list(self.jobs_details.get("success_jobs").keys())[:3]:
+                                z = self.jobs_details.get("success_jobs")[y]
+                                dummy_template = success_jobs_html_template
                                 dummy_template = dummy_template.replace("**dump_your_job_name**", z.get("fullDisplayName"))
                                 dummy_template = dummy_template.replace("**dump_your_job_url**", z.get("last_build_url"))
                                 dummy_template = dummy_template.replace("**dump_your_job_timestamp_here**", datetime.fromtimestamp(z.get("timestamp")/1000).strftime('%A, %-d-%-m-%Y at %-I:%M %p'))
-                                failing_jobs_html += dummy_template.replace("**dump_your_job_duration**", f"{z.get("duration")//3600} Hr")
-                                x = x.replace("**dump_your_all_success_jobs_here**", failing_jobs_html)
-                            description_file.writelines(failing_jobs_html)
+                                success_jobs_html += dummy_template.replace("**dump_your_job_duration**", convert_sec_to_hr_min_sec(z.get("duration")))
+                                x = x.replace("**dump_your_all_success_jobs_here**", success_jobs_html)
+                            description_file.writelines(success_jobs_html)
                             continue
                         else:
                             x = x.replace("**dump_your_all_success_jobs_here**", "⛔⛔No Successful Jobs Found On The Jenkins.⛔⛔")

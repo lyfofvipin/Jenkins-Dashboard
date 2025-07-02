@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jenkins Dashboard | Failed Jobs</title>
+    <title>Jenkins Dashboard | Passing Jobs</title>
     <style>
         * {
             margin: 0;
@@ -353,25 +353,27 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-header">
-                        <div class="stat-title">Failing</div>
-                        <div class="stat-icon icon-danger">❌</div>
+                        <div class="stat-title">Passing</div>
+                        <div class="stat-icon icon-success">✅</div>
                     </div>
-                    <div class="stat-value">**dump_your_failed_jobs_count_here**</div>
-                    <div class="stat-percentage">**dump_your_failed_jobs_count_percentage_here**% of total</div>
+                    <div class="stat-value">**dump_your_passed_jobs_count_here**</div>
+                    <div class="stat-percentage">**dump_your_passed_jobs_count_percentage_here**% of total</div>
                 </div>
             </div>
         </div>
 
         <div class="jobs-section">
             <div class="jobs-grid">
-
-                <!-- Failing Jobs -->
+                <!-- Passing Jobs -->
                 <div class="job-category">
                     <div class="job-category-header">
                         <div class="job-category-title">
-                            <span class="job-status-badge status-failing">❌ Failing Jobs (**dump_your_failed_jobs_count_here**)</span>
+                            <span class="job-status-badge status-passing">✅ Passing Jobs (**dump_your_passed_jobs_count_here**)</span>
                         </div>
-                        <div class="dropdown" id="failingDropdown">
+                        <div class="dropdown" id="passingDropdown">
+                            <button class="dropdown-btn" onclick="toggleDropdown('passingDropdown')">
+                                View More ▼
+                            </button>
                             <div class="dropdown-content job-dropdown-content">
                                 <table style="width: 100%; border-collapse: collapse;">
                                     <tr style="background: #f8fafc;">
@@ -393,7 +395,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            **dump_your_all_failing_jobs_here**
+                            **dump_your_all_success_jobs_here**
                         </tbody>
                     </table>
                 </div>
