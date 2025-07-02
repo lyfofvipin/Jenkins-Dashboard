@@ -1,6 +1,7 @@
 import requests, os
 from .common import *
 from datetime import datetime
+# from .data import abc
 
 class JenkinsJobAnalyzer():
 
@@ -48,7 +49,7 @@ class JenkinsJobAnalyzer():
                 auth = self.auth,
                 verify=self.ssl_verification
             )
-            add_to_logs(f"Connection to Jenkins Server {self.server_url} done.")
+            add_to_logs(f'Connection to Jenkins Server {self.server_url} done.')
             return data.json()
         except requests.exceptions.ConnectionError:
             raise ConnectionError(f"Failed to connect with {self.server_url} you can try to access the jenkins from the host try `curl f{self.server_url + self.api_suffix}` and you will see some json.")
@@ -67,7 +68,7 @@ class JenkinsJobAnalyzer():
         for x in data:
             if "WorkflowJob" in x.get("_class") or "FreeStyleProject" in x.get("_class"):
                 self.job_list.append(x.get("url"))
-                add_to_logs(f"Fetched job {x.get("url")}")
+                add_to_logs(f'Fetched job {x.get("url")}')
             if "Folder" in x.get("_class"):
                 self.get_jobs_from_folder( x.get("url").rstrip("/") + self.api_suffix )
 
@@ -83,7 +84,7 @@ class JenkinsJobAnalyzer():
         for x in home_page_data:
             if "WorkflowJob" in x.get("_class") or "FreeStyleProject" in x.get("_class"):
                 self.job_list.append(x.get("url"))
-                add_to_logs(f"Fetched job {x.get("url")}")
+                add_to_logs(f'Fetched job {x.get("url")}')
             if "Folder" in x.get("_class"):
                 self.get_jobs_from_folder( x.get("url").rstrip("/") + self.api_suffix )
 
@@ -107,7 +108,7 @@ class JenkinsJobAnalyzer():
             if data.get("buildable"):
 
                 if data.get("lastBuild"):
-                    add_to_logs(f"Collecting last build details of {data.get("fullDisplayName")}.")
+                    add_to_logs(f'Collecting last build details of {data.get("fullDisplayName")}.')
                     last_build_data = requests.get(
                         data.get("lastBuild").get("url").strip("/") + self.api_suffix,
                         auth = self.auth,
@@ -123,7 +124,7 @@ class JenkinsJobAnalyzer():
                     continue
 
                 if data.get("lastCompletedBuild"):
-                    add_to_logs(f"Collecting last build details of {data.get("fullDisplayName")}.")
+                    add_to_logs(f'Collecting last build details of {data.get("fullDisplayName")}.')
                     last_build_data = requests.get(
                         data.get("lastCompletedBuild").get("url").strip("/") + self.api_suffix,
                         auth = self.auth,
@@ -199,7 +200,7 @@ class JenkinsJobAnalyzer():
         self.jobs_details["unknown_jobs"] = self.unknown_jobs
         self.jobs_details["disabled_jobs"] = self.disabled_jobs
         self.jobs_details["stale_jobs"] = self.stale_jobs
-
+        # self.jobs_details = abc
         add_to_logs(str(self.jobs_details))
 
     def prepare_html_report(self):
