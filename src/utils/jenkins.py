@@ -1,11 +1,10 @@
 import requests, os
 from .common import *
 from datetime import datetime
-from .data import abc
 
 class JenkinsJobAnalyzer():
 
-    
+
     def __init__(self, server_url: str, username=None, token=None, ssl_verification=True):
         """
         Verifies if a Jenkins server is running and accessible.
@@ -185,24 +184,23 @@ class JenkinsJobAnalyzer():
                 }
 
     def prepare_dict_data(self):
-        # self.get_jobs_detail()
-        # self.jobs_details["total_number_of_jobs"] = \
-        #     len(self.aborted_jobs) \
-        #     + len(self.fail_jobs) \
-        #     + len(self.success_jobs) \
-        #     + len(self.unknown_jobs) \
-        #     + len(self.unstable_jobs) \
-        #     + len(self.stale_jobs)
-        # self.jobs_details["success_jobs"] = self.success_jobs
-        # self.jobs_details["aborted_jobs"] = self.aborted_jobs
-        # self.jobs_details["unstable_jobs"] = self.unstable_jobs
-        # self.jobs_details["fail_jobs"] = self.fail_jobs
-        # self.jobs_details["unknown_jobs"] = self.unknown_jobs
-        # self.jobs_details["disabled_jobs"] = self.disabled_jobs
-        # self.jobs_details["stale_jobs"] = self.stale_jobs
-        self.jobs_details = abc
+        self.get_jobs_detail()
+        self.jobs_details["total_number_of_jobs"] = \
+            len(self.aborted_jobs) \
+            + len(self.fail_jobs) \
+            + len(self.success_jobs) \
+            + len(self.unknown_jobs) \
+            + len(self.unstable_jobs) \
+            + len(self.stale_jobs)
+        self.jobs_details["success_jobs"] = self.success_jobs
+        self.jobs_details["aborted_jobs"] = self.aborted_jobs
+        self.jobs_details["unstable_jobs"] = self.unstable_jobs
+        self.jobs_details["fail_jobs"] = self.fail_jobs
+        self.jobs_details["unknown_jobs"] = self.unknown_jobs
+        self.jobs_details["disabled_jobs"] = self.disabled_jobs
+        self.jobs_details["stale_jobs"] = self.stale_jobs
 
-        # add_to_logs(str(self.jobs_details))
+        add_to_logs(str(self.jobs_details))
 
     def prepare_html_report(self):
         with open("src/templates/theme.html") as description_template:
