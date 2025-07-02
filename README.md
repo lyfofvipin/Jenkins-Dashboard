@@ -91,7 +91,7 @@ The **Jenkins Dashboard** is a powerful, lightweight analytics and monitoring so
 
 1. **Clone the repository**
    ```bash
-   git clone https://gitlab.cee.redhat.com/certification-qe/Jenkins-Dashboard.git
+   git clone https://github.com/lyfofvipin/Jenkins-Dashboard.git
    cd jenkins-dashboard
    ```
 
