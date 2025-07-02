@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jenkins Dashboard | Stale Jobs</title>
-    <style>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -202,6 +202,51 @@
             gap: 8px;
         }
 
+        #ai-popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        }
+
+        /* Popup box */
+        #ai-popup {
+        background: #fffdf5;
+        color: #333;
+        max-width: 600px;
+        margin: 10% auto;
+        padding: 20px 30px;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        position: relative;
+        font-family: Arial, sans-serif;
+        }
+
+        /* Scrollable content area */
+        #ai-popup-content {
+        max-height: 300px;
+        overflow-y: auto;
+        white-space: normal;
+        padding-right: 5px;
+        }
+
+        /* Close button */
+        #ai-popup-close {
+        position: absolute;
+        top: 10px; right: 15px;
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: #888;
+        }
+
+        #ai-popup-close:hover {
+        color: #000;
+        }
+
         .dropdown-btn:hover {
             background: #2563eb;
         }
@@ -346,6 +391,15 @@
 </head>
 <body>
     <div class="container">
+
+        <!-- Popup -->
+        <div id="ai-popup-overlay">
+            <div id="ai-popup">
+            <button id="ai-popup-close" onclick="closePopup()">×</button>
+            <div id="ai-popup-content">Loading...</div>
+            </div>
+        </div>
+
         <div class="header">
             <h1>**Jenkins Dashboard**</h1>
         </div>
@@ -395,36 +449,43 @@
     </div>
 
     <script>
-        function toggleDropdown(dropdownId) {
-            // Close all other dropdowns
-            const allDropdowns = document.querySelectorAll('.dropdown');
-            allDropdowns.forEach(dropdown => {
-                if (dropdown.id !== dropdownId) {
-                    dropdown.classList.remove('show');
-                }
-            });
-            
-            // Toggle the clicked dropdown
-            const dropdown = document.getElementById(dropdownId);
-            dropdown.classList.toggle('show');
+        // Show popup with HTML content
+        function showPopup(message) {
+        document.getElementById('ai-popup-content').innerHTML = message;
+        document.getElementById('ai-popup-overlay').style.display = 'block';
         }
 
-        // Close dropdowns when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-btn')) {
-                const dropdowns = document.getElementsByClassName('dropdown-content');
-                for (let i = 0; i < dropdowns.length; i++) {
-                    const openDropdown = dropdowns[i];
-                    const dropdown = openDropdown.closest('.dropdown');
-                    if (dropdown.classList.contains('show')) {
-                        dropdown.classList.remove('show');
-                    }
-                }
-            }
+        // Close popup
+        function closePopup() {
+        document.getElementById('ai-popup-overlay').style.display = 'none';
         }
+        async function askAI(jobUrl) {
+            showPopup('Thinking... please wait...');
+
+            try {
+                const response = await fetch('http://localhost:8000/api/analyzejenkins', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    job_url: jobUrl,
+                    query_type: "jenkinsbuildlog"
+                })
+                });
+
+                if (!response.ok) throw new Error('Request failed: ' + response.status);
+
+                const data = await response.json();
+                const formatted = data.response.replace(/\n/g, '<br>');
+                showPopup(formatted);
+            } catch (err) {
+                showPopup('Error: ' + err.message);
+            }
+            }
     </script>
 </body>
 </html>
 
 
-<!-- javascript:(function(){window.open('https://example.com','_blank').document.getElementById('email').value='your-email@example.com';})(); -->
+

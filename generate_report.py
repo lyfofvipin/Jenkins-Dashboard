@@ -20,6 +20,7 @@ if os.environ.get("SSL_VERIFICATION"):
 else:
     ssl_verification = False
 
+server_url = "https://jenkins-csb-rhcertqe-master.dno.corp.redhat.com"
 abcd = JenkinsJobAnalyzer(server_url=server_url, ssl_verification=ssl_verification, username=username, token=token)
 abcd.prepare_dict_data()
 abcd.prepare_description_report()
