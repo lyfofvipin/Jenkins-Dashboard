@@ -3,8 +3,8 @@ import os
 
 if os.environ.get("JENKINS_SERVER_URL"):
     server_url = os.environ.get("JENKINS_SERVER_URL")
-elif os.environ.get("JENKINS_HOME"):
-    server_url = os.environ.get("JENKINS_HOME")
+elif os.environ.get("JENKINS_URL"):
+    server_url = os.environ.get("JENKINS_URL")
 else:
     server_url = "http://localhost:8080"
 
